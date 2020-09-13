@@ -446,7 +446,7 @@ def make_bar_chart(preds, names):
         width=275,
         height=150,        
         margin=dict(l=10, r=10, t=5, b=5, pad=5),
-        xaxis=dict(range=[1 * 10 ** 5, 2 * 10 ** 6]),
+        xaxis=dict(range=[Model.min_pred, Model.max_pred]),
         xaxis_title=('PLN'),
         hoverlabel=dict(bgcolor='white', font_size=12, font_family='Segoe UI, sans-serif'),        
         font=dict(family="Segoe UI, sans-serif", size=12, color='#212529')

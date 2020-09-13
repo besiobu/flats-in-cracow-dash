@@ -163,15 +163,35 @@ def generate_features(district,
 
 class Model(object):
 
+    max_pred = 2 * 10 ** 6
+    min_pred = 1 * 10 ** 5
+
     def __init__(self, name):
         self.name = name
         self.mdl = None
 
     def load(self):
+        """
+
+        Read model from file.
+
+        """
         self.mdl = joblib.load(f'models/{self.name}.joblib')
         return self
 
     def predict(self, x):
+        """
+
+        Obtain prediction from model.
+
+        Notes
+        -----
+        The output is constrained to be between
+        100 000 and 2 000 000.
+
+        """
         y_pred = self.mdl.predict(x)
         y_pred = int(round(float(y_pred), -3))
+        y_pred = max(y_pred, Model.min_pred)
+        y_pred = min(y_pred, Model.max_pred)
         return y_pred
