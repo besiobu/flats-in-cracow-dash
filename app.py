@@ -122,11 +122,16 @@ studio_drop = dcc.Dropdown(id='studio-dropdown',
                            options=bin_opts, 
                            value=0)
 
+# Links
+google_maps_link = dcc.Link('Cracow, Poland', href='https://goo.gl/maps/AXsGvLCugEmcd2WG7')
+github_link = dcc.Link('Github', href='https://github.com/besiobu/flats-in-cracow')
+# linkedin = dcc.Link('Linkedin', href='')                           
+
 # Information about the page
-about_text = 'I created a model from scratch to predict flat prices in Cracow, Poland.' \
-             ' The model was trained using approximately 3500 data points scraped in august and september 2020.' \
-             ' On this website you can interact with the model and see how different factors impact the final price.' \
-             ' For more information on how the model was developed checkout the repo in the link below.'
+about_text_p1 = 'On this site you can find out how much that flat you are thinking about buying should cost.' \
+                ' The models were trained using approximately 3500 listings for flats in '
+about_text_p2 = '. Feel free to interact with the models and see how different factors impact the final price.' \
+                ' For more information on how the models were developed checkout the projects repo.'
 
 # Styles
 body_style = {'width': '40%', 
@@ -230,8 +235,12 @@ floor_div = html.Div(children=[html.Label('Ground floor:'), floor_drop],
 land_div = html.Div(children=[html.Label('Land:'), land_drop], 
                     style=drop_style)
 
+# about_div = html.Div(children=[html.H5('About'), 
+#                                html.P(about_text, style={'height': '150px'})], 
+#                      style=about_style)
+
 about_div = html.Div(children=[html.H5('About'), 
-                               html.P(about_text, style={'height': '150px'})], 
+                               html.Div(children=[about_text_p1, google_maps_link, about_text_p2])], 
                      style=about_style)
 
 chart_div = html.Div(children=[html.Div(children=[html.H5('Prediction'), 
@@ -274,8 +283,7 @@ form_right = html.Div(children=[right_form_header,
                       style=form_col_style)
 
 # Footer
-bottom = [dcc.Link('Github', href='https://github.com/besiobu/flats-in-cracow')]
-        #   dcc.Link('Linkedin', href='https://github.com/besiobu/flats-in-cracow', style={'margin-left': '10px'})]
+bottom = [github_link]
 
 # Dash app
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.FLATLY])
