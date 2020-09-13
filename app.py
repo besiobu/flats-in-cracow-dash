@@ -224,7 +224,7 @@ new_div = html.Div(children=[html.Label('New:'), new_drop],
 parking_div = html.Div(children=[html.Label('Parking:'), parking_drop], 
                        style=drop_style)
 
-floor_div = html.Div(children=[html.Label('Floor:'), floor_drop], 
+floor_div = html.Div(children=[html.Label('Ground floor:'), floor_drop], 
                     style=drop_style)
 
 land_div = html.Div(children=[html.Label('Land:'), land_drop], 
@@ -308,6 +308,79 @@ app.layout = html.Div(children=[
     ], style=body_style)
 
 @app.callback(
+    [dash.dependencies.Output('room-slider', component_property='min'),
+     dash.dependencies.Output('room-slider', component_property='max')],
+    [dash.dependencies.Input('area-slider', 'value')]
+)
+def update_rooms_slider(area):
+    """
+
+    Update rooms slider to sensible values.
+
+    """
+
+    return [1, min(int(area / 15),6)]
+
+@app.callback(
+    [dash.dependencies.Output('bathroom-slider', component_property='min'),
+     dash.dependencies.Output('bathroom-slider', component_property='max')],
+    [dash.dependencies.Input('area-slider', 'value')]
+)
+def update_bathrooms_slider(area):
+    """
+
+    Update bathrooms slider to sensible values.
+
+    """
+
+    return [1, min(int(area / 20), 5)]    
+
+@app.callback(
+    dash.dependencies.Output('townhouse-dropdown', 'options'),
+    [dash.dependencies.Input('estate-dropdown', 'value')]
+)
+def update_townhouse_dropdown(estate):
+    """
+
+    Limit townhouse to sensible values.
+
+    Notes
+    -----
+    Townhouse and estate should be mutually exclusive.
+
+    """
+
+    if estate:
+        opts = [{'label': 'No', 'value': 0}]        
+    else:
+        opts = [{'label': 'Yes', 'value': 1},
+                {'label': 'No', 'value': 0}]        
+    return opts
+
+@app.callback(
+    dash.dependencies.Output('estate-dropdown', 'options'),
+    [dash.dependencies.Input('townhouse-dropdown', 'value')]
+)
+def update_estate_dropdown(estate):
+    """
+
+    Limit esate to sensible values.
+
+    Notes
+    -----
+    Townhouse and estate should be mutually exclusive.
+
+    """
+
+    if estate:
+        opts = [{'label': 'No', 'value': 0}]        
+    else:
+        opts = [{'label': 'Yes', 'value': 1},
+                {'label': 'No', 'value': 0}]        
+    return opts
+
+
+@app.callback(
     dash.dependencies.Output('prediction', 'children'),
     [
         dash.dependencies.Input('district-dropdown', 'value'),           
@@ -329,6 +402,12 @@ app.layout = html.Div(children=[
     ]    
 )
 def update_prediction(*args):
+    """
+
+    Retrieve predictions from model and draw
+    updated chart.
+
+    """
 
     x = generate_features(*args)
 
