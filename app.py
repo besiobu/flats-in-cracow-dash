@@ -1,14 +1,17 @@
 import dash
-import joblib
+import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
-import dash_bootstrap_components as dbc
+import plotly.graph_objects as go
 
-import pandas as pd
-import numpy as np
+from src.Model import Model, generate_features
 
-# Model
-mdl = joblib.load('model.joblib')    
+# Models
+gbr = Model(name='gbr').load()
+mlp = Model(name='mlp').load()
+vote = Model(name='vote').load()
+
+models = [gbr, mlp, vote]
 
 # App components
 # Categorical options
@@ -55,7 +58,7 @@ area_slider = dcc.Slider(id='area-slider', min=20, max=120,
 
 room_marks = {i: str(i) for i in range(1, 7)}
 room_slider = dcc.Slider(id='room-slider', min=1, max=6, 
-                         step=1, value=1, marks=room_marks)
+                         step=1, value=2, marks=room_marks)
 
 bathroom_marks = {i: str(i) for i in range(1, 6)}
 bathroom_slider = dcc.Slider(id='bathroom-slider', min=1, max=5,
@@ -121,7 +124,7 @@ studio_drop = dcc.Dropdown(id='studio-dropdown',
 
 # Styles
 
-slider_header_style = {'margin': '5px'}
+slider_header_style = {'margin': '5px', 'text-align': 'left', 'width': '100%'}
 
 slider_style = {'margin': '5px'}
 
@@ -133,23 +136,23 @@ form_col_style = {'float': 'left',
                   'width': '33%', 
                   'margin': '0'}
 
-form_body_style = {'width': '40%', 
+form_body_style = {'width': '100%', 
                    'margin': '0 auto', 
                    'text-align': 'left'}
 
 title_style = {'width': '100%', 
-               'text-align': 'center'}
+               'text-align': 'justify'}
 
-pred_style = {'width': '50%', 
+pred_style = {'width': '100%', 
               'margin': '0 auto', 
-              'text-align': 'center'}
+              'text-align': 'left'}
 
 bottom_style = {'margin': '10px', 
                 'float': 'left',
                 'width' : '100%',
                 'text-align': 'left'}  
 
-body_style = {'width': '100%', 
+body_style = {'width': '40%', 
               'height': '100%', 
               'margin': '0 auto'}                                 
 
@@ -208,8 +211,23 @@ land_div = html.Div(children=[html.Label('Land:'), land_drop],
 # Divs - layout - dropdowns, in order of appearance
 title = [html.H2('How much will your new flat cost ?')]
 
-pred = [html.Div(children=[html.H3('Predicted price:')]),
-        html.Div(id='prediction')]
+# html.Div(id='prediction')
+
+# Bottom
+bottom_note = 'I created a model from scratch to predict flat prices in Cracow, Poland.'
+bottom_note += ' The model was trained using approximately 3500 data points scraped in august and september 2020.'
+bottom_note += ' On this website you can interact with the model and see how different factors impact the final price.'
+bottom_note += ' For more information on how the model was developed checkout the repo in the link below.'
+
+bottom = [dcc.Link('Github', href='https://github.com/besiobu/flats-in-cracow')]
+        #   dcc.Link('Linkedin', href='https://github.com/besiobu/flats-in-cracow', style={'margin-left': '10px'})]
+
+pred = [html.Div(children=[html.Div(children=[html.Div(children=[html.H5('Prediction'), html.Div(id='prediction')])], 
+                                                       style={'float': 'left', 'width': '40%', 'height': '150px', 'margin': '5px', 'text-align': 'justify'}), 
+                                              html.Div(children=[html.H5('About'), html.P(bottom_note, style={'height': '150px'})], 
+                                                       style={'float': 'left', 'width': '55%', 'height': '150px', 'vertical-align': 'middle', 'margin': '5px', 'text-align': 'justify'})], 
+                                    style={'margin': '0 auto', 'height': '200px', 'width': '100%'})
+]
 
 # Form headers
 center_form_header = html.H5('Property type', style=form_header_style)
@@ -241,14 +259,7 @@ form_right = html.Div(children=[right_form_header,
                                 land_div], 
                       style=form_col_style)
 
-# Bottom
-bottom_note = 'I created a model from scratch to predict flat prices in Cracow, Poland.'
-bottom_note += ' The model was trained using approximately 3500 data points scraped in august and september 2020.'
-bottom_note += ' On this website you can interact with the model and see how different factors impact the final price.'
-bottom_note += ' For more information on how the model was developed checkout the repo in the link below.'
 
-bottom = [html.H6(bottom_note),
-          dcc.Link('Github', href='https://github.com/besiobu/flats-in-cracow')]
 
 # Dash app
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.FLATLY])
@@ -269,11 +280,11 @@ app.layout = html.Div(children=[
     # Sliders
     html.Div(children=form_sliders, style=form_body_style),
 
-    # Dropdowns
+    # # Dropdowns
     html.Div(children=[form_left, form_center, form_right], 
              style=form_body_style),
 
-    # Note
+    # Footer
     html.Div(children=[html.Div(children=bottom, 
                                 style=bottom_style)], 
              style=form_body_style)
@@ -301,175 +312,53 @@ app.layout = html.Div(children=[
         dash.dependencies.Input('studio-dropdown', 'value'),                                        
     ]    
 )
-def get_pred(district,
-             seller,
-             area,
-             rooms,
-             bathrooms,
-             parking,
-             garden,
-             balcony,
-             terrace,
-             floor,
-             new,
-             estate,
-             townhouse,
-             apartment,
-             land,
-             studio):
+def update_prediction(*args):
 
+    x = generate_features(*args)
+
+    preds = [mdl.predict(x) for mdl in models]
+    names = [mdl.name for mdl in models]
+
+    bar_chart = make_bar_chart(preds=preds,
+                               names=names)
+
+    return bar_chart    
+
+def make_bar_chart(preds, names):
     """
 
-    Get predictions from model.
-
-    Parameters
-    ----------
-    district : str
-        District of property.
-    seller : str
-        Who is selling the property ?
-    area : int
-        Area in meters squared.
-    rooms : int
-        Number of rooms.
-    bathrooms : int
-        Number of bathrooms.
-    parking : str
-        Type of parking.
-    garden : bool
-        Has garden ?
-    balcony : bool
-        Has balcony ?
-    terrace :
-        Has terrace ?
-    floor : bool
-        Is on ground level ?
-    new : bool
-        Is new ?
-    estate : bool
-        Is in estate ?
-    townhouse : bool
-        Is townhouse ?
-    apartment : bool
-        Is apartment ?
-    land : bool
-        Includes land ?
-    studio : bool
-        Is studio flat ?
+    Draw horizontal bar char with model predictions.
 
     Notes
     -----
-    Features are created the same
-    way as during the model building
-    process. See Jupyter Notebook 
-    for more information.
+    Last predicton is plotted in darker colour.
 
     """
 
-    columns = ['District',
-               'Seller',
-               'Area',
-               'Rooms',
-               'Bathrooms',
-               'Parking',
-               'Garden',
-               'Balcony',
-               'Terrace',
-               'Floor',
-               'New',
-               'Estate',
-               'Townhouse',
-               'Apartment',
-               'Land',
-               'Studio',
-               'Log Area',
-               'Bool Sum',
-               'Area to Bool Sum',
-               'Rooms to Bool Sum',
-               'Rooms to Bathrooms',
-               'Total Rooms',
-               'Area to Rooms',
-               'Area to Bathrooms',
-               'Area to Total Rooms']
-        
-    # Log Area    
-    log_area = np.log(area)
+    names = [x.upper() for x in names]
 
-    all_bools = [garden,
-                 balcony,
-                 terrace,
-                 floor,
-                 new,
-                 estate,
-                 townhouse,
-                 apartment,
-                 land,
-                 studio]
-    
-    # Bool Sum    
-    bool_sum = sum(all_bools)
+    fig = go.Figure(go.Bar(y=names,
+                           x=preds,
+                           width=(0.5, 0.5, 0.5),
+                           marker_color=['#ABE2FB', '#ABE2FB', '#3498DB'],
+                           orientation='h'))
 
-    # Area to Bool Sum    
-    area_to_bool_sum = area / (bool_sum + 1)
-    
-    # Rooms to Bool Sum    
-    rooms_to_bool_sum = rooms / (bool_sum + 1)
-        
-    # Rooms to Bathrooms
-    rooms_to_bathrooms = rooms / bathrooms
-        
-    # Total Rooms
-    total_rooms = rooms + bathrooms
+    fig.update_layout(
+        template='plotly_white',        
+        width=275,
+        height=150,        
+        margin=dict(l=10, r=10, t=5, b=5, pad=5),
+        xaxis=dict(range=[1 * 10 ** 5, 2 * 10 ** 6]),
+        xaxis_title=('PLN'),
+        hoverlabel=dict(bgcolor='white', font_size=12, font_family='Segoe UI, sans-serif'),        
+        font=dict(family="Segoe UI, sans-serif", size=12, color='#212529')
+    )
 
-    # Area to Rooms
-    area_to_rooms = area / total_rooms
+    # Disable toolbar
+    bar_chart = dcc.Graph(figure=fig,
+                           config={'displayModeBar': False})
 
-    # Area to Bathrooms
-    area_to_bathrooms = area / bathrooms
-
-    # Area Total Rooms    
-    area_to_total_rooms = area / total_rooms
-    
-    x = [district,
-         seller,
-         area,
-         rooms,
-         bathrooms,
-         parking,
-         garden,
-         balcony,
-         terrace,
-         floor,
-         new,
-         estate,
-         townhouse,
-         apartment,
-         land,
-         studio,
-         log_area,
-         bool_sum,
-         area_to_bool_sum,
-         rooms_to_bool_sum,
-         rooms_to_bathrooms,
-         total_rooms,
-         area_to_rooms,
-         area_to_bathrooms,
-         area_to_total_rooms]    
-    
-    x = pd.DataFrame([x], columns=columns)    
-    x = float(mdl.predict(x))
-
-    price = int(round(x, -3))
-    price_per_meter = int(price / area)
-
-    price_pln = f'{str(price)} PLN'
-    price_per_meter_pln = f'{str(price_per_meter)} PLN per square meter.'
-
-    price_html = html.Div(children=[html.H3(price_pln), 
-                                    html.H6(price_per_meter_pln)])
-
-    return price_html    
+    return bar_chart
 
 if __name__ == '__main__':
     app.run_server(debug=True)
-    
