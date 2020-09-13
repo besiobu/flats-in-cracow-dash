@@ -122,9 +122,41 @@ studio_drop = dcc.Dropdown(id='studio-dropdown',
                            options=bin_opts, 
                            value=0)
 
-# Styles
+# Information about the page
+about_text = 'I created a model from scratch to predict flat prices in Cracow, Poland.' \
+             ' The model was trained using approximately 3500 data points scraped in august and september 2020.' \
+             ' On this website you can interact with the model and see how different factors impact the final price.' \
+             ' For more information on how the model was developed checkout the repo in the link below.'
 
-slider_header_style = {'margin': '5px', 'text-align': 'left', 'width': '100%'}
+# Styles
+body_style = {'width': '40%', 
+              'height': '100%', 
+              'margin': '0 auto'}                                 
+
+title_style = {'width': '100%', 
+               'text-align': 'justify'}
+
+chart_style = {'float': 'left', 
+               'width': '40%', 
+               'height': '150px', 
+               'margin': '5px', 
+               'text-align': 
+               'justify'}
+
+about_style = {'float': 'left', 
+               'width': '55%', 
+               'height': '150px', 
+               'vertical-align': 'middle', 
+               'margin': '5px', 
+               'text-align': 'justify'}
+
+middle_style = {'margin': '0 auto', 
+                'height': '200px', 
+                'width': '100%'}
+
+slider_header_style = {'margin': '5px', 
+                       'text-align': 'left', 
+                       'width': '100%'}
 
 slider_style = {'margin': '5px'}
 
@@ -140,21 +172,11 @@ form_body_style = {'width': '100%',
                    'margin': '0 auto', 
                    'text-align': 'left'}
 
-title_style = {'width': '100%', 
-               'text-align': 'justify'}
-
-pred_style = {'width': '100%', 
-              'margin': '0 auto', 
-              'text-align': 'left'}
 
 bottom_style = {'margin': '10px', 
                 'float': 'left',
                 'width' : '100%',
                 'text-align': 'left'}  
-
-body_style = {'width': '40%', 
-              'height': '100%', 
-              'margin': '0 auto'}                                 
 
 # Divs - forms - sliders
 area_div = html.Div(children=[html.Label('Area (meters squared):'), area_slider], 
@@ -208,26 +230,18 @@ floor_div = html.Div(children=[html.Label('Floor:'), floor_drop],
 land_div = html.Div(children=[html.Label('Land:'), land_drop], 
                     style=drop_style)
 
+about_div = html.Div(children=[html.H5('About'), 
+                               html.P(about_text, style={'height': '150px'})], 
+                     style=about_style)
+
+chart_div = html.Div(children=[html.Div(children=[html.H5('Prediction'), 
+                               html.Div(id='prediction')])], 
+                     style=chart_style)
+
 # Divs - layout - dropdowns, in order of appearance
 title = [html.H2('How much will your new flat cost ?')]
 
-# html.Div(id='prediction')
-
-# Bottom
-bottom_note = 'I created a model from scratch to predict flat prices in Cracow, Poland.'
-bottom_note += ' The model was trained using approximately 3500 data points scraped in august and september 2020.'
-bottom_note += ' On this website you can interact with the model and see how different factors impact the final price.'
-bottom_note += ' For more information on how the model was developed checkout the repo in the link below.'
-
-bottom = [dcc.Link('Github', href='https://github.com/besiobu/flats-in-cracow')]
-        #   dcc.Link('Linkedin', href='https://github.com/besiobu/flats-in-cracow', style={'margin-left': '10px'})]
-
-pred = [html.Div(children=[html.Div(children=[html.Div(children=[html.H5('Prediction'), html.Div(id='prediction')])], 
-                                                       style={'float': 'left', 'width': '40%', 'height': '150px', 'margin': '5px', 'text-align': 'justify'}), 
-                                              html.Div(children=[html.H5('About'), html.P(bottom_note, style={'height': '150px'})], 
-                                                       style={'float': 'left', 'width': '55%', 'height': '150px', 'vertical-align': 'middle', 'margin': '5px', 'text-align': 'justify'})], 
-                                    style={'margin': '0 auto', 'height': '200px', 'width': '100%'})
-]
+middle = [html.Div(children=[chart_div, about_div], style=middle_style)]
 
 # Form headers
 center_form_header = html.H5('Property type', style=form_header_style)
@@ -259,7 +273,9 @@ form_right = html.Div(children=[right_form_header,
                                 land_div], 
                       style=form_col_style)
 
-
+# Footer
+bottom = [dcc.Link('Github', href='https://github.com/besiobu/flats-in-cracow')]
+        #   dcc.Link('Linkedin', href='https://github.com/besiobu/flats-in-cracow', style={'margin-left': '10px'})]
 
 # Dash app
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.FLATLY])
@@ -274,8 +290,8 @@ app.layout = html.Div(children=[
     # Title
     html.Div(children=title, style=title_style),
 
-    # Predictions
-    html.Div(children=pred, style=pred_style),
+    # Predictions & About
+    html.Div(children=middle, style=middle_style),
 
     # Sliders
     html.Div(children=form_sliders, style=form_body_style),
@@ -337,10 +353,13 @@ def make_bar_chart(preds, names):
 
     names = [x.upper() for x in names]
 
+    colours = ['#ABE2FB' for i in range(len(preds)-1)]
+    colours += ['#3498DB']
+
     fig = go.Figure(go.Bar(y=names,
                            x=preds,
                            width=(0.5, 0.5, 0.5),
-                           marker_color=['#ABE2FB', '#ABE2FB', '#3498DB'],
+                           marker_color=colours,
                            orientation='h'))
 
     fig.update_layout(
@@ -355,8 +374,7 @@ def make_bar_chart(preds, names):
     )
 
     # Disable toolbar
-    bar_chart = dcc.Graph(figure=fig,
-                           config={'displayModeBar': False})
+    bar_chart = dcc.Graph(figure=fig, config={'displayModeBar': False})
 
     return bar_chart
 
