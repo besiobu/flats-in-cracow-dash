@@ -25,7 +25,7 @@ district_opts = [
     {'label': 'Zwierzyniec', 'value': 'zwierzyniec'},
     {'label': 'Dębniki', 'value': 'debniki'},
     {'label': 'Łagiewniki', 'value': 'lagiewniki'},
-    {'label': 'Borek Fałęcki', 'value': 'borek falęcki'},
+    {'label': 'Borek Fałęcki', 'value': 'borek falecki'},
     {'label': 'Swoszowice', 'value': 'swoszowice'},                                                    
     {'label': 'Podgórze Duchackie', 'value': 'podgorze duchackie'},                          
     {'label': 'Bieżanów', 'value': 'biezanow'},
