@@ -17,24 +17,24 @@ models = [gbr, mlp, vote]
 # Categorical options
 district_opts = [
     {'label': 'Stare Miasto', 'value': 'stare miasto'},
-    {'label': 'Grzegórzki', 'value': 'grzegórzki'},
-    {'label': 'Prądnik Czerwony', 'value': 'prądnik czerwony'},                          
-    {'label': 'Prądnik Biały', 'value': 'prądnik biały'},             
+    {'label': 'Grzegórzki', 'value': 'grzegorzki'},
+    {'label': 'Prądnik Czerwony', 'value': 'pradnik czerwony'},                          
+    {'label': 'Prądnik Biały', 'value': 'pradnik bialy'},             
     {'label': 'Krowodrza', 'value': 'krowodrza'},
     {'label': 'Bronowice', 'value': 'bronowice'},
     {'label': 'Zwierzyniec', 'value': 'zwierzyniec'},
-    {'label': 'Dębniki', 'value': 'dębniki'},
-    {'label': 'Łagiewniki', 'value': 'łagiewniki'},
-    {'label': 'Borek Fałęcki', 'value': 'borek fałęcki'},
+    {'label': 'Dębniki', 'value': 'debniki'},
+    {'label': 'Łagiewniki', 'value': 'lagiewniki'},
+    {'label': 'Borek Fałęcki', 'value': 'borek falęcki'},
     {'label': 'Swoszowice', 'value': 'swoszowice'},                                                    
-    {'label': 'Podgórze Duchackie', 'value': 'podgórze duchackie'},                          
-    {'label': 'Bieżanów', 'value': 'bieżanów'},
+    {'label': 'Podgórze Duchackie', 'value': 'podgorze duchackie'},                          
+    {'label': 'Bieżanów', 'value': 'biezanow'},
     {'label': 'Prokocim', 'value': 'prokocim'},             
-    {'label': 'Podgórze', 'value': 'podgórze'},                                       
-    {'label': 'Czyżyny', 'value': 'czyżyny'},                          
+    {'label': 'Podgórze', 'value': 'podgorze'},                                       
+    {'label': 'Czyżyny', 'value': 'czyzyny'},                          
     {'label': 'Mistrzejowice', 'value': 'mistrzejowice'},                          
-    {'label': 'Bieńczyce', 'value': 'bieńczyce'},                                       
-    {'label': 'Wzgórza Krzesławickie', 'value': 'wzgórza krzesławickie'},                                       
+    {'label': 'Bieńczyce', 'value': 'bienczyce'},                                       
+    {'label': 'Wzgórza Krzesławickie', 'value': 'wzgorza krzeslawickie'},
     {'label': 'Nowa Huta', 'value': 'nowa huta'}
 ]
 
@@ -235,12 +235,10 @@ floor_div = html.Div(children=[html.Label('Ground floor:'), floor_drop],
 land_div = html.Div(children=[html.Label('Land:'), land_drop], 
                     style=drop_style)
 
-# about_div = html.Div(children=[html.H5('About'), 
-#                                html.P(about_text, style={'height': '150px'})], 
-#                      style=about_style)
-
 about_div = html.Div(children=[html.H5('About'), 
-                               html.Div(children=[about_text_p1, google_maps_link, about_text_p2])], 
+                               html.Div(children=[about_text_p1, 
+                                                  google_maps_link, 
+                                                  about_text_p2])], 
                      style=about_style)
 
 chart_div = html.Div(children=[html.Div(children=[html.H5('Prediction'), 
