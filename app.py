@@ -123,8 +123,8 @@ studio_drop = dcc.Dropdown(id='studio-dropdown',
                            value=0)
 
 # Links
-google_maps_link = dcc.Link('Cracow, Poland', href='https://goo.gl/maps/AXsGvLCugEmcd2WG7')
-github_link = dcc.Link('Github', href='https://github.com/besiobu/flats-in-cracow')
+google_maps_link = html.A('Cracow, Poland', href='https://goo.gl/maps/AXsGvLCugEmcd2WG7', target='_blank')
+github_link = html.A('Github', href='https://github.com/besiobu/flats-in-cracow', target='_blank')
 # linkedin = dcc.Link('Linkedin', href='')                           
 
 # Information about the page
