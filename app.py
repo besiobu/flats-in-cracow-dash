@@ -125,7 +125,6 @@ studio_drop = dcc.Dropdown(id='studio-dropdown',
 # Links
 google_maps_link = html.A('Cracow, Poland', href='https://goo.gl/maps/AXsGvLCugEmcd2WG7', target='_blank')
 github_link = html.A('Github', href='https://github.com/besiobu/flats-in-cracow', target='_blank')
-# linkedin = dcc.Link('Linkedin', href='')                           
 
 # Information about the page
 about_text_p1 = 'On this site you can find out how much that flat you are thinking about buying should cost.' \
@@ -134,54 +133,26 @@ about_text_p2 = '. Feel free to interact with the models and see how different f
                 ' For more information on how the models were developed checkout the projects repo.'
 
 # Styles
-body_style = {'width': '40%', 
-              'height': '100%', 
-              'margin': '0 auto'}                                 
-
-title_style = {'width': '100%', 
+title_style = {'margin': '10px',
                'text-align': 'justify'}
 
-chart_style = {'float': 'left', 
-               'width': '40%', 
-               'height': '150px', 
-               'margin': '5px', 
-               'text-align': 
-               'justify'}
-
-about_style = {'float': 'left', 
-               'width': '55%', 
-               'height': '150px', 
-               'vertical-align': 'middle', 
-               'margin': '5px', 
+chart_style = {'margin': '10px', 
                'text-align': 'justify'}
 
-middle_style = {'margin': '0 auto', 
-                'height': '200px', 
-                'width': '100%'}
+about_style = {'margin': '10px', 
+               'text-align': 'justify'}
 
-slider_header_style = {'margin': '5px', 
-                       'text-align': 'left', 
-                       'width': '100%'}
+slider_header_style = {'margin': '10px'}
 
-slider_style = {'margin': '5px'}
+slider_style = {'margin': '10px'}
 
-form_header_style = {'margin': '10px'}
+form_header_style = {'margin-left': '10px'}
+
+form_col_style = {'margin': '0px'}
 
 drop_style = {'margin': '10px'}
 
-form_col_style = {'float': 'left', 
-                  'width': '33%', 
-                  'margin': '0'}
-
-form_body_style = {'width': '100%', 
-                   'margin': '0 auto', 
-                   'text-align': 'left'}
-
-
-bottom_style = {'margin': '10px', 
-                'float': 'left',
-                'width' : '100%',
-                'text-align': 'left'}  
+bottom_style = {'margin': '10px'}
 
 # Divs - forms - sliders
 area_div = html.Div(children=[html.Label('Area (meters squared):'), area_slider], 
@@ -245,10 +216,15 @@ chart_div = html.Div(children=[html.Div(children=[html.H5('Prediction'),
                                html.Div(id='prediction')])], 
                      style=chart_style)
 
-# Divs - layout - dropdowns, in order of appearance
-title = [html.H2('How much will your new flat cost ?')]
+bottom = html.Div(children=[github_link], 
+                  style=bottom_style)                     
 
-middle = [html.Div(children=[chart_div, about_div], style=middle_style)]
+# Divs - layout, in order of appearance
+title = html.Div(children=[html.H2('How much will your new flat cost ?')],
+                 style=title_style)
+
+# About
+middle = [html.Div(children=[chart_div, about_div])]
 
 # Form headers
 center_form_header = html.H5('Property type', style=form_header_style)
@@ -280,38 +256,43 @@ form_right = html.Div(children=[right_form_header,
                                 land_div], 
                       style=form_col_style)
 
-# Footer
-bottom = [github_link]
+# Rows, in order of appearance
+title_row = dbc.Row(children=[dbc.Col(title, width=6)], 
+                    justify='center')
+
+middle_row = dbc.Row(children=[dbc.Col(chart_div, width=3),
+                               dbc.Col(about_div, width=3)], 
+                     justify='center')
+
+form_sliders_row = dbc.Row(children=[dbc.Col(form_sliders, width=6)], 
+                           justify='center')
+
+form_drops_row = dbc.Row(children=[dbc.Col(form_left, width=2),
+                                   dbc.Col(form_center, width=2),
+                                   dbc.Col(form_right, width=2)], 
+                         justify='center')
+
+bottom_row = dbc.Row(children=[dbc.Col(bottom, width=6)], 
+                     justify='center')
 
 # Dash app
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.FLATLY])
+meta_tags = {"name": "viewport", 
+             "content": "width=device-width, initial-scale=1"}
+
+app = dash.Dash(name=__name__, 
+                external_stylesheets=[dbc.themes.FLATLY], 
+                meta_tags=[meta_tags])
 
 # Flask
 server = app.server
 
 app.title = 'Flats in Cracow'
 
-app.layout = html.Div(children=[
-
-    # Title
-    html.Div(children=title, style=title_style),
-
-    # Predictions & About
-    html.Div(children=middle, style=middle_style),
-
-    # Sliders
-    html.Div(children=form_sliders, style=form_body_style),
-
-    # # Dropdowns
-    html.Div(children=[form_left, form_center, form_right], 
-             style=form_body_style),
-
-    # Footer
-    html.Div(children=[html.Div(children=bottom, 
-                                style=bottom_style)], 
-             style=form_body_style)
-
-    ], style=body_style)
+app.layout = html.Div(children=[title_row,
+                                middle_row,
+                                form_sliders_row,
+                                form_drops_row,
+                                bottom_row])
 
 @app.callback(
     [dash.dependencies.Output('room-slider', component_property='min'),
@@ -449,7 +430,6 @@ def make_bar_chart(preds, names):
 
     fig.update_layout(
         template='plotly_white',        
-        width=275,
         height=150,        
         margin=dict(l=10, r=10, t=5, b=5, pad=5),
         xaxis=dict(range=[Model.min_pred, Model.max_pred]),
