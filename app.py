@@ -13,8 +13,7 @@ vote = Model(name='vote').load()
 
 models = [gbr, mlp, vote]
 
-# App components
-# Categorical options
+# App
 district_opts = [
     {'label': 'Stare Miasto', 'value': 'stare miasto'},
     {'label': 'Grzegórzki', 'value': 'grzegorzki'},
@@ -123,14 +122,24 @@ studio_drop = dcc.Dropdown(id='studio-dropdown',
                            value=0)
 
 # Links
-google_maps_link = html.A('Cracow, Poland', href='https://goo.gl/maps/AXsGvLCugEmcd2WG7', target='_blank')
-github_link = html.A('Github', href='https://github.com/besiobu/flats-in-cracow', target='_blank')
+google_maps_link = html.A(children='Cracow, Poland', 
+                          href='https://goo.gl/maps/AXsGvLCugEmcd2WG7', 
+                          target='_blank')
+
+github_link = html.A(children='Github', 
+                     href='https://github.com/besiobu/flats-in-cracow', 
+                     target='_blank')
 
 # Information about the page
-about_text_p1 = 'On this site you can find out how much that flat you are thinking about buying should cost.' \
-                ' The models were trained using approximately 3500 listings for flats in '
-about_text_p2 = '. Feel free to interact with the models and see how different factors impact the final price.' \
-                ' For more information on how the models were developed checkout the projects repo.'
+about_text_p1 = 'On this site you can find out how much that' \
+                ' flat you are thinking about buying should cost.' \
+                ' The models were trained using approximately' \
+                ' 3500 listings for flats in '
+
+about_text_p2 = '. Feel free to interact with the models and' \
+                ' see how different factors impact the final price.' \
+                ' For more information on how the models were ' \
+                ' developed checkout the projects repo.'
 
 # Styles
 title_style = {'margin': '10px',
@@ -164,7 +173,10 @@ room_div = html.Div(children=[html.Label('Rooms:'), room_slider],
 bathroom_div = html.Div(children=[html.Label('Bathrooms:'), bathroom_slider], 
                         style=slider_style)
 
-form_sliders = [html.H5('Area & rooms', style=slider_header_style), area_div, room_div, bathroom_div]
+form_sliders = [html.H5('Area & rooms', style=slider_header_style), 
+                area_div, 
+                room_div, 
+                bathroom_div]
 
 # Divs - forms - dropdowns
 district_div = html.Div(children=[html.Label('District:'), district_drop], 
@@ -428,18 +440,22 @@ def make_bar_chart(preds, names):
                            marker_color=colours,
                            orientation='h'))
 
-    fig.update_layout(
-        template='plotly_white',        
-        height=150,        
-        margin=dict(l=10, r=10, t=5, b=5, pad=5),
-        xaxis=dict(range=[Model.min_pred, Model.max_pred]),
-        xaxis_title=('PLN'),
-        hoverlabel=dict(bgcolor='white', font_size=12, font_family='Segoe UI, sans-serif'),        
-        font=dict(family="Segoe UI, sans-serif", size=12, color='#212529')
+    fig.update_layout(template='plotly_white',        
+                      height=150,        
+                      margin=dict(l=10, r=10, t=5, b=5, pad=5),
+                      xaxis=dict(range=[Model.min_pred, Model.max_pred]),
+                      xaxis_title=('PLN'),
+                      hoverlabel=dict(bgcolor='white', 
+                                      font_size=12, 
+                                      font_family='Segoe UI, sans-serif'),        
+                      font=dict(family="Segoe UI, sans-serif", 
+                                size=12, 
+                                color='#212529')
     )
 
     # Disable toolbar
-    bar_chart = dcc.Graph(figure=fig, config={'displayModeBar': False})
+    bar_chart = dcc.Graph(figure=fig, 
+                          config={'displayModeBar': False})
 
     return bar_chart
 
