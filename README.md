@@ -2,6 +2,7 @@
 
 ## Project goal
 The goal of this project is to build a web app to interact with models I [built](https://github.com/besiobu/flats-in-cracow) to predict flat prices in Cracow, PL.
+The web app is hosted on heroku, [link](https://flats-in-cracow.herokuapp.com/).
 
 ### Methods
 * Data visualization
