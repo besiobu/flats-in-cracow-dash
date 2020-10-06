@@ -268,23 +268,51 @@ form_right = html.Div(children=[right_form_header,
                                 land_div], 
                       style=form_col_style)
 
+# Responsive layout
+middle_col_left = {'offset': 0, 'order': 1, 'width': 8}
+middle_col_right = {'offset': 0, 'order': 2, 'width': 4}
+
+form_col_left = {'offset': 0, 'order': 1, 'width': 4}
+form_col_center = {'offset': 0, 'order': 2, 'width': 4}
+form_col_right = {'offset': 0, 'order': 3, 'width': 4}
+
 # Rows, in order of appearance
-title_row = dbc.Row(children=[dbc.Col(title, xs=12, sm=12, md=10, lg=8, xl=6)], 
+title_row = dbc.Row(children=[dbc.Col(title, xs=12, sm=12, md=12, lg=12, xl=6)], 
                     justify='center')
 
-middle_row = dbc.Row(children=[dbc.Col(chart_div, xs=8, sm=7, md=6, lg=5, xl=3),
-                               dbc.Col(about_div, xs=4, sm=4, md=4, lg=3, xl=3)], 
+middle_row = dbc.Row(children=[dbc.Col(chart_div, xs=middle_col_left, 
+                                                  sm=middle_col_left, 
+                                                  md=middle_col_left, 
+                                                  lg=middle_col_left, 
+                                                  xl=3),
+                               dbc.Col(about_div, xs=middle_col_right, 
+                                                  sm=middle_col_right, 
+                                                  md=middle_col_right, 
+                                                  lg=middle_col_right, 
+                                                  xl=3)], 
                      justify='center')
 
-form_sliders_row = dbc.Row(children=[dbc.Col(form_sliders, xs=12, sm=12, md=10, lg=8, xl=6)], 
+form_sliders_row = dbc.Row(children=[dbc.Col(form_sliders, xs=12, sm=12, md=12, lg=12, xl=6)], 
                            justify='center')
 
-form_drops_row = dbc.Row(children=[dbc.Col(form_left, xs=4, sm=4, md=3, lg=3, xl=2),
-                                   dbc.Col(form_center, xs=4, sm=4, md=3, lg=3, xl=2),
-                                   dbc.Col(form_right, xs=4, sm=4, md=3, lg=3, xl=2)], 
+form_drops_row = dbc.Row(children=[dbc.Col(form_left, xs=form_col_left, 
+                                                      sm=form_col_left, 
+                                                      md=form_col_left, 
+                                                      lg=form_col_left, 
+                                                      xl=2),
+                                   dbc.Col(form_center, xs=form_col_center, 
+                                                        sm=form_col_center, 
+                                                        md=form_col_center, 
+                                                        lg=form_col_center, 
+                                                        xl=2),
+                                   dbc.Col(form_right, xs=form_col_right, 
+                                                       sm=form_col_right, 
+                                                       md=form_col_right, 
+                                                       lg=form_col_right, 
+                                                       xl=2)], 
                          justify='center')
 
-bottom_row = dbc.Row(children=[dbc.Col(bottom, xs=12, sm=12, md=10, lg=8, xl=6)], 
+bottom_row = dbc.Row(children=[dbc.Col(bottom, xs=12, sm=12, md=12, lg=12, xl=6)], 
                      justify='center')
 
 # Dash app
