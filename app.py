@@ -65,7 +65,7 @@ bathroom_slider = dcc.Slider(id='bathroom-slider', min=1, max=5,
 
 # Categorical dropdowns
 district_drop = dcc.Dropdown(id='district-dropdown', 
-                             options=district_opts, 
+                             options=sorted(district_opts, key=lambda x: x['label']), 
                              value='stare miasto')
 
 propterty_drop = dcc.Dropdown(id='property-dropdown', 
