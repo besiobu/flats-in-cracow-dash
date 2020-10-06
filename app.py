@@ -51,17 +51,22 @@ bin_opts = [{'label': 'Yes', 'value': 1},
             {'label': 'No', 'value': 0}]        
 
 # Numeric sliders
+# area_marks = {i: {'label': str(i), 'style': {'font-size': '1vw'}} for i in range(20, 125, 5)}
+
 area_marks = {i: str(i) for i in range(20, 125, 5)}
 area_slider = dcc.Slider(id='area-slider', min=20, max=120, 
-                         step=5, value=70, marks=area_marks)
+                         step=5, value=70, marks=area_marks, 
+                         included=False)
 
 room_marks = {i: str(i) for i in range(1, 7)}
 room_slider = dcc.Slider(id='room-slider', min=1, max=6, 
-                         step=1, value=2, marks=room_marks)
+                         step=1, value=2, marks=room_marks,
+                         included=False)
 
 bathroom_marks = {i: str(i) for i in range(1, 6)}
 bathroom_slider = dcc.Slider(id='bathroom-slider', min=1, max=5,
-                             step=1, value=1, marks=bathroom_marks)
+                             step=1, value=1, marks=bathroom_marks,
+                             included=False)
 
 # Categorical dropdowns
 district_drop = dcc.Dropdown(id='district-dropdown', 
