@@ -269,22 +269,22 @@ form_right = html.Div(children=[right_form_header,
                       style=form_col_style)
 
 # Rows, in order of appearance
-title_row = dbc.Row(children=[dbc.Col(title, width=6)], 
+title_row = dbc.Row(children=[dbc.Col(title, xs=12, sm=12, md=10, lg=8, xl=6)], 
                     justify='center')
 
-middle_row = dbc.Row(children=[dbc.Col(chart_div, width=3),
-                               dbc.Col(about_div, width=3)], 
+middle_row = dbc.Row(children=[dbc.Col(chart_div, xs=8, sm=7, md=6, lg=5, xl=3),
+                               dbc.Col(about_div, xs=4, sm=4, md=4, lg=3, xl=3)], 
                      justify='center')
 
-form_sliders_row = dbc.Row(children=[dbc.Col(form_sliders, width=6)], 
+form_sliders_row = dbc.Row(children=[dbc.Col(form_sliders, xs=12, sm=12, md=10, lg=8, xl=6)], 
                            justify='center')
 
-form_drops_row = dbc.Row(children=[dbc.Col(form_left, width=2),
-                                   dbc.Col(form_center, width=2),
-                                   dbc.Col(form_right, width=2)], 
+form_drops_row = dbc.Row(children=[dbc.Col(form_left, xs=4, sm=4, md=3, lg=3, xl=2),
+                                   dbc.Col(form_center, xs=4, sm=4, md=3, lg=3, xl=2),
+                                   dbc.Col(form_right, xs=4, sm=4, md=3, lg=3, xl=2)], 
                          justify='center')
 
-bottom_row = dbc.Row(children=[dbc.Col(bottom, width=6)], 
+bottom_row = dbc.Row(children=[dbc.Col(bottom, xs=12, sm=12, md=10, lg=8, xl=6)], 
                      justify='center')
 
 # Dash app
