@@ -77,7 +77,7 @@ seller_drop = dcc.Dropdown(id='seller-dropdown',
                            value='realtor')
 
 parking_drop = dcc.Dropdown(id='parking-dropdown', 
-                            options=parking_opts, 
+                            options=sorted(parking_opts, key=lambda x: x['label']), 
                             value='no parking')
 
 # Binary dropdowns
