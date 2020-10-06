@@ -65,7 +65,7 @@ bathroom_slider = dcc.Slider(id='bathroom-slider', min=1, max=5,
 
 # Categorical dropdowns
 district_drop = dcc.Dropdown(id='district-dropdown', 
-                             options=district_opts, 
+                             options=sorted(district_opts, key=lambda x: x['label']), 
                              value='stare miasto')
 
 propterty_drop = dcc.Dropdown(id='property-dropdown', 
@@ -77,7 +77,7 @@ seller_drop = dcc.Dropdown(id='seller-dropdown',
                            value='realtor')
 
 parking_drop = dcc.Dropdown(id='parking-dropdown', 
-                            options=parking_opts, 
+                            options=sorted(parking_opts, key=lambda x: x['label']), 
                             value='no parking')
 
 # Binary dropdowns
@@ -269,22 +269,22 @@ form_right = html.Div(children=[right_form_header,
                       style=form_col_style)
 
 # Rows, in order of appearance
-title_row = dbc.Row(children=[dbc.Col(title, width=6)], 
+title_row = dbc.Row(children=[dbc.Col(title, xs=12, sm=12, md=10, lg=8, xl=6)], 
                     justify='center')
 
-middle_row = dbc.Row(children=[dbc.Col(chart_div, width=3),
-                               dbc.Col(about_div, width=3)], 
+middle_row = dbc.Row(children=[dbc.Col(chart_div, xs=8, sm=7, md=6, lg=5, xl=3),
+                               dbc.Col(about_div, xs=4, sm=4, md=4, lg=3, xl=3)], 
                      justify='center')
 
-form_sliders_row = dbc.Row(children=[dbc.Col(form_sliders, width=6)], 
+form_sliders_row = dbc.Row(children=[dbc.Col(form_sliders, xs=12, sm=12, md=10, lg=8, xl=6)], 
                            justify='center')
 
-form_drops_row = dbc.Row(children=[dbc.Col(form_left, width=2),
-                                   dbc.Col(form_center, width=2),
-                                   dbc.Col(form_right, width=2)], 
+form_drops_row = dbc.Row(children=[dbc.Col(form_left, xs=4, sm=4, md=3, lg=3, xl=2),
+                                   dbc.Col(form_center, xs=4, sm=4, md=3, lg=3, xl=2),
+                                   dbc.Col(form_right, xs=4, sm=4, md=3, lg=3, xl=2)], 
                          justify='center')
 
-bottom_row = dbc.Row(children=[dbc.Col(bottom, width=6)], 
+bottom_row = dbc.Row(children=[dbc.Col(bottom, xs=12, sm=12, md=10, lg=8, xl=6)], 
                      justify='center')
 
 # Dash app
@@ -318,7 +318,7 @@ def update_rooms_slider(area):
 
     """
 
-    return [1, min(int(area / 15),6)]
+    return [1, min(int(area / 30),6)]
 
 @app.callback(
     [dash.dependencies.Output('bathroom-slider', component_property='min'),
@@ -332,7 +332,7 @@ def update_bathrooms_slider(area):
 
     """
 
-    return [1, min(int(area / 20), 5)]    
+    return [1, min(int(area / 40), 5)]    
 
 @app.callback(
     dash.dependencies.Output('townhouse-dropdown', 'options'),
