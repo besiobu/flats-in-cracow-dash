@@ -11,12 +11,12 @@ def generate_features(district,
                       garden,
                       balcony,
                       terrace,
-                      floor,
+                      basement,
                       new,
-                      estate,
+                      block,
                       townhouse,
                       apartment,
-                      land,
+                      busstop,
                       studio):
          
     """
@@ -76,12 +76,12 @@ def generate_features(district,
                'Garden',
                'Balcony',
                'Terrace',
-               'Floor',
+               'Basement',
                'New',
-               'Estate',
+               'Block',
                'Townhouse',
                'Apartment',
-               'Land',
+               'Bus stops',
                'Studio',
                'Log Area',
                'Bool Sum',
@@ -99,12 +99,12 @@ def generate_features(district,
     all_bools = [garden,
                  balcony,
                  terrace,
-                 floor,
+                 basement,
                  new,
-                 estate,
+                 block,
                  townhouse,
                  apartment,
-                 land,
+                 busstop,
                  studio]
     
     # Bool Sum    
@@ -140,12 +140,12 @@ def generate_features(district,
          garden,
          balcony,
          terrace,
-         floor,
+         basement,
          new,
-         estate,
+         block,
          townhouse,
          apartment,
-         land,
+         busstop,
          studio,
          log_area,
          bool_sum,
@@ -190,8 +190,10 @@ class Model(object):
         100 000 and 2 000 000.
 
         """
+        
         y_pred = self.mdl.predict(x)
         y_pred = int(round(float(y_pred), -3))
         y_pred = max(y_pred, Model.min_pred)
         y_pred = min(y_pred, Model.max_pred)
+
         return y_pred
