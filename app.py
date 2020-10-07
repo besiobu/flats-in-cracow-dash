@@ -51,9 +51,7 @@ bin_opts = [{'label': 'Yes', 'value': 1},
             {'label': 'No', 'value': 0}]        
 
 # Numeric sliders
-# area_marks = {i: {'label': str(i), 'style': {'font-size': '1vw'}} for i in range(20, 125, 5)}
-
-area_marks = {i: str(i) for i in range(20, 125, 5)}
+area_marks = {i: str(i) for i in list(range(20, 130, 10))}
 area_slider = dcc.Slider(id='area-slider', min=20, max=120, 
                          step=5, value=70, marks=area_marks, 
                          included=False)
