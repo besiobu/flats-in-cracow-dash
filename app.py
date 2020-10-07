@@ -88,7 +88,7 @@ garden_drop = dcc.Dropdown(id='garden-dropdown',
                            options=bin_opts, 
                            value=0)
 
-floor_drop = dcc.Dropdown(id='floor-dropdown', 
+basement_drop = dcc.Dropdown(id='basement-dropdown', 
                          options=bin_opts, 
                          value=0)
 
@@ -104,7 +104,7 @@ new_drop = dcc.Dropdown(id='new-dropdown',
                         options=bin_opts, 
                         value=0)
 
-estate_drop = dcc.Dropdown(id='estate-dropdown',
+block_drop = dcc.Dropdown(id='block-dropdown',
                            options=bin_opts, 
                            value=0)
 
@@ -116,7 +116,7 @@ apartment_drop = dcc.Dropdown(id='apartment-dropdown',
                               options=bin_opts, 
                               value=0)
 
-land_drop = dcc.Dropdown(id='land-dropdown', 
+busstop_drop = dcc.Dropdown(id='busstop-dropdown', 
                          options=bin_opts, 
                          value=0)
 
@@ -137,7 +137,7 @@ github_link = html.A(children='Github',
 about_text_p1 = 'On this site you can find out how much that' \
                 ' flat you are thinking about buying should cost.' \
                 ' The models were trained using approximately' \
-                ' 3500 listings for flats in '
+                ' 4500 listings for flats in '
 
 about_text_p2 = '. Feel free to interact with the models and' \
                 ' see how different factors impact the final price.' \
@@ -197,16 +197,16 @@ terrace_div = html.Div(children=[html.Label('Terrace:'), terrace_drop],
 buyer_div = html.Div(children=[html.Label('Buy from:'), seller_drop], 
                      style=drop_style)
 
-estate_div = html.Div(children=[html.Label('Estate:'), estate_drop], 
+block_div = html.Div(children=[html.Label('In a residential block ?'), block_drop], 
                       style=drop_style)
 
-townhouse_div = html.Div(children=[html.Label('Townhouse:'), townhouse_drop], 
+townhouse_div = html.Div(children=[html.Label('In a townhouse ?'), townhouse_drop], 
                          style=drop_style)
 
-apartment_div = html.Div(children=[html.Label('Apartment:'), apartment_drop], 
+apartment_div = html.Div(children=[html.Label('Is a apartment ?'), apartment_drop], 
                          style=drop_style)
 
-studio_div = html.Div(children=[html.Label('Studio:'), studio_drop],
+studio_div = html.Div(children=[html.Label('Is a studio flat ?'), studio_drop],
                       style=drop_style)
 
 new_div = html.Div(children=[html.Label('New:'), new_drop], 
@@ -215,10 +215,10 @@ new_div = html.Div(children=[html.Label('New:'), new_drop],
 parking_div = html.Div(children=[html.Label('Parking:'), parking_drop], 
                        style=drop_style)
 
-floor_div = html.Div(children=[html.Label('Ground floor:'), floor_drop], 
+basement_div = html.Div(children=[html.Label('Has a basement ?'), basement_drop], 
                     style=drop_style)
 
-land_div = html.Div(children=[html.Label('Land:'), land_drop], 
+busstop_div = html.Div(children=[html.Label('Bus stops nearby:'), busstop_drop], 
                     style=drop_style)
 
 about_div = html.Div(children=[html.H5('About'), 
@@ -255,11 +255,11 @@ form_left = html.Div(children=[left_form_header,
 
 # Other information
 form_center = html.Div(children=[center_form_header,
-                                 estate_div,
+                                 block_div,
                                  townhouse_div,                                 
                                  apartment_div,
                                  studio_div,
-                                 floor_div], 
+                                 basement_div], 
                        style=form_col_style)
 
 # Extras
@@ -268,7 +268,7 @@ form_right = html.Div(children=[right_form_header,
                                 garden_div,
                                 balcony_div,
                                 terrace_div,
-                                land_div], 
+                                busstop_div], 
                       style=form_col_style)
 
 # Responsive layout
@@ -367,20 +367,20 @@ def update_bathrooms_slider(area):
 
 @app.callback(
     dash.dependencies.Output('townhouse-dropdown', 'options'),
-    [dash.dependencies.Input('estate-dropdown', 'value')]
+    [dash.dependencies.Input('block-dropdown', 'value')]
 )
-def update_townhouse_dropdown(estate):
+def update_townhouse_dropdown(block):
     """
 
     Limit townhouse to sensible values.
 
     Notes
     -----
-    Townhouse and estate should be mutually exclusive.
+    Townhouse and block should be mutually exclusive.
 
     """
 
-    if estate:
+    if block:
         opts = [{'label': 'No', 'value': 0}]        
     else:
         opts = [{'label': 'Yes', 'value': 1},
@@ -388,21 +388,21 @@ def update_townhouse_dropdown(estate):
     return opts
 
 @app.callback(
-    dash.dependencies.Output('estate-dropdown', 'options'),
+    dash.dependencies.Output('block-dropdown', 'options'),
     [dash.dependencies.Input('townhouse-dropdown', 'value')]
 )
-def update_estate_dropdown(estate):
+def update_block_dropdown(block):
     """
 
     Limit esate to sensible values.
 
     Notes
     -----
-    Townhouse and estate should be mutually exclusive.
+    Townhouse and block should be mutually exclusive.
 
     """
 
-    if estate:
+    if block:
         opts = [{'label': 'No', 'value': 0}]        
     else:
         opts = [{'label': 'Yes', 'value': 1},
@@ -422,12 +422,12 @@ def update_estate_dropdown(estate):
         dash.dependencies.Input('garden-dropdown', 'value'),
         dash.dependencies.Input('balcony-dropdown', 'value'),
         dash.dependencies.Input('terrace-dropdown', 'value'),
-        dash.dependencies.Input('floor-dropdown', 'value'),
+        dash.dependencies.Input('basement-dropdown', 'value'),
         dash.dependencies.Input('new-dropdown', 'value'),
-        dash.dependencies.Input('estate-dropdown', 'value'),
+        dash.dependencies.Input('block-dropdown', 'value'),
         dash.dependencies.Input('townhouse-dropdown', 'value'),
         dash.dependencies.Input('apartment-dropdown', 'value'),
-        dash.dependencies.Input('land-dropdown', 'value'),                                
+        dash.dependencies.Input('busstop-dropdown', 'value'),                                
         dash.dependencies.Input('studio-dropdown', 'value'),                                        
     ]    
 )
