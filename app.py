@@ -351,7 +351,7 @@ def update_rooms_slider(area):
 
     """
 
-    return [1, min(int(area / 30),6)]
+    return [1, min(int(area / 30) + 1, 6)]
 
 @app.callback(
     [dash.dependencies.Output('bathroom-slider', component_property='min'),
@@ -365,7 +365,7 @@ def update_bathrooms_slider(area):
 
     """
 
-    return [1, min(int(area / 40), 5)]    
+    return [1, min(int(area / 40) + 1, 5)]    
 
 @app.callback(
     dash.dependencies.Output('townhouse-dropdown', 'options'),
