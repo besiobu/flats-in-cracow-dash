@@ -163,8 +163,8 @@ def generate_features(district,
 
 class Model(object):
 
-    max_pred = 2 * 10 ** 6
-    min_pred = 1 * 10 ** 5
+    max_pred = 1.5 * 10 ** 6
+    min_pred = 2 * 10 ** 5
 
     def __init__(self, name):
         self.name = name

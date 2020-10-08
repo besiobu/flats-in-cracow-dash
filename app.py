@@ -206,7 +206,7 @@ form_sliders = [html.H4('Area & rooms', style=slider_header_style),
                 room_div, 
                 bathroom_div]
 
-# Tooltips
+# Tooltips - forms
 district_tooltip = 'Choose a district in Cracow.'
 
 buyer_tooltip = 'Realtor: buy from a real estate agency. ' \
@@ -214,57 +214,111 @@ buyer_tooltip = 'Realtor: buy from a real estate agency. ' \
 
 new_tooltip = 'Did the listing description contain the keyword `new` ? '
 
+balcony_tooltip = 'Did the listing description contain the keyword `balcony` ?'
+
+terrace_tooltip = 'Did the listing description contain the keyword `terrace` ?'
+
+block_tooltip = 'Did the listing description contain the keyword `block` ?'
+
+townhouse_tooltip = 'Did the listing description contain the keyword `townhouse` ?'
+
+apartment_tooltip = 'Did the listing description contain the keyword `apartment` ?'
+
+studio_tooltip = 'Did the listing description contain the keyword `studio` ?'
+
+parking_tooltip = 'What type of parking does the property come with ?'
+
+basement_tooltip = 'Did the listing description contain the keyword `basement` ?'
+
+busstop_tooltip = 'Did the listing description contain the phrase `bus stops nearby` ?'
+
+# Tooltips - other
 stats_tooltip = 'Based on values predicted by the best (VOTE) model.'
 
-chart_tooltip = 'MLP: A neural network.' \
-                ' GBR: A Gradient Boosting Regression model.' \
-                ' VOTE: Linear combination of MLP and GBR.'
+chart_tooltip = 'MLP: Neural network.' \
+                ' GBR: Gradient Boosting.' \
+                ' VOTE: Ensemble of MLP and GBR.'
 
 # Divs - forms - dropdowns
-
-district_div = html.Div(children=[html.Label('District:', id='district-tooltip', style={'cursor': 'pointer'}), 
-                        dbc.Tooltip(district_tooltip, target='district-tooltip'),
-                        district_drop], 
+district_div = html.Div(children=[html.Label('District:', id='district-tooltip', 
+                                             style={'cursor': 'pointer'}), 
+                                 dbc.Tooltip(district_tooltip, target='district-tooltip'),
+                                 district_drop], 
                         style=drop_style)
 
-garden_div = html.Div(children=[html.Label('Garden:'), garden_drop],
+garden_tooltip = 'Did the listing description contain the keyword `garden` ?'
+
+garden_div = html.Div(children=[html.Label('Garden:', id='tooltip-garden', 
+                                           style={'cursor': 'pointer'}), 
+                                dbc.Tooltip(garden_tooltip, target='tooltip-garden'),
+                                garden_drop],
                       style=drop_style)
 
-balcony_div = html.Div(children=[html.Label('Balcony:'), balcony_drop], 
+
+balcony_div = html.Div(children=[html.Label('Balcony:', id='tooltip-balcony', 
+                                            style={'cursor': 'pointer'}), 
+                                 dbc.Tooltip(balcony_tooltip, target='tooltip-balcony'),
+                                 balcony_drop],                      
                      style=drop_style)
 
-terrace_div = html.Div(children=[html.Label('Terrace:'), terrace_drop], 
+terrace_div = html.Div(children=[html.Label('Terrace:', id='tooltip-terrace', 
+                                            style={'cursor': 'pointer'}), 
+                                 dbc.Tooltip(terrace_tooltip, target='tooltip-terrace'),
+                                 terrace_drop], 
                        style=drop_style)
 
-buyer_div = html.Div(children=[html.Label('Buy from:', id='tooltip-buyer', style={'cursor': 'pointer'}), 
+buyer_div = html.Div(children=[html.Label('Buy from:', id='tooltip-buyer', 
+                                          style={'cursor': 'pointer'}), 
                                dbc.Tooltip(buyer_tooltip, target='tooltip-buyer'), 
                                seller_drop], 
                      style=drop_style)
 
-block_div = html.Div(children=[html.Label('In a residential block ?'), block_drop], 
+block_div = html.Div(children=[html.Label('In a residential block ?', id='tooltip-block', 
+                                          style={'cursor': 'pointer'}), 
+                               dbc.Tooltip(block_tooltip, target='tooltip-block'), 
+                               block_drop], 
                       style=drop_style)
 
-townhouse_div = html.Div(children=[html.Label('In a townhouse ?'), townhouse_drop], 
+townhouse_div = html.Div(children=[html.Label('In a townhouse ?', id='tooltip-townhouse', 
+                                              style={'cursor': 'pointer'}), 
+                                   dbc.Tooltip(townhouse_tooltip, target='tooltip-townhouse'),
+                                   townhouse_drop], 
                          style=drop_style)
 
-apartment_div = html.Div(children=[html.Label('Is a apartment ?'), apartment_drop], 
+apartment_div = html.Div(children=[html.Label('Is a apartment ?', id='tooltip-apartment', 
+                                              style={'cursor': 'pointer'}),
+                                   dbc.Tooltip(apartment_tooltip, target='tooltip-apartment'),
+                                   apartment_drop], 
                          style=drop_style)
 
-studio_div = html.Div(children=[html.Label('Is a studio flat ?'), studio_drop],
+studio_div = html.Div(children=[html.Label('Is a studio flat ?', id='tooltip-studio', 
+                                           style={'cursor': 'pointer'}), 
+                                dbc.Tooltip(studio_tooltip, target='tooltip-studio'),
+                                studio_drop],
                       style=drop_style)
 
-new_div = html.Div(children=[html.Label('New:', id='tooltip-new', style={'cursor': 'pointer'}), 
+new_div = html.Div(children=[html.Label('New:', id='tooltip-new', 
+                                        style={'cursor': 'pointer'}), 
                              dbc.Tooltip(new_tooltip, target='tooltip-new'),
                              new_drop], 
                    style=drop_style)
 
-parking_div = html.Div(children=[html.Label('Parking:'), parking_drop], 
+parking_div = html.Div(children=[html.Label('Parking:', id='tooltip-parking', 
+                                            style={'cursor': 'pointer'}), 
+                                 dbc.Tooltip(parking_tooltip, target='tooltip-parking'),
+                                 parking_drop], 
                        style=drop_style)
 
-basement_div = html.Div(children=[html.Label('Has a basement ?'), basement_drop], 
+basement_div = html.Div(children=[html.Label('Has a basement ?', id='tooltip-basement',     
+                                             style={'cursor': 'pointer'}), 
+                                  dbc.Tooltip(basement_tooltip, target='tooltip-basement'),
+                                  basement_drop], 
                     style=drop_style)
 
-busstop_div = html.Div(children=[html.Label('Bus stops nearby:'), busstop_drop], 
+busstop_div = html.Div(children=[html.Label('Bus stops nearby:', id='tooltip-busstop', 
+                                            style={'cursor': 'pointer'}), 
+                                 dbc.Tooltip(busstop_tooltip, target='tooltip-busstop'),
+                                 busstop_drop], 
                     style=drop_style)
 
 about_div = html.Div(children=[html.H4('About'), 
@@ -273,14 +327,19 @@ about_div = html.Div(children=[html.H4('About'),
                                                   about_text_p2])], 
                      style=about_style)
 
-stats_div = html.Div(children=[html.Div(children=[html.H4('Prediction details', id='tooltip-stats', style={'cursor': 'pointer'}),
+stats_div = html.Div(children=[html.Div(children=[html.H4('Prediction details', id='tooltip-stats', 
+                                                          style={'cursor': 'pointer'}),
                                                   html.Div(id='pred-stats'),
-                                                  dbc.Tooltip(stats_tooltip, target='tooltip-stats', placement='top-start')])], style=about_style)
+                                                  dbc.Tooltip(stats_tooltip, target='tooltip-stats', 
+                                                              placement='top-start')])], 
+                                        style=about_style)
 
 
-chart_div = html.Div(children=[html.Div(children=[html.H4('Prediction chart', id='tooltip-prediction', style={'cursor': 'pointer'}), 
+chart_div = html.Div(children=[html.Div(children=[html.H4('Prediction chart', id='tooltip-prediction', 
+                                                          style={'cursor': 'pointer'}), 
                                html.Div(id='prediction'),
-                               dbc.Tooltip(chart_tooltip, target='tooltip-prediction', placement='top-start')])], 
+                               dbc.Tooltip(chart_tooltip, target='tooltip-prediction', 
+                                           placement='top-start')])], 
                      style=chart_style)
 
 bottom = html.Div(children=[github_link], 
@@ -335,7 +394,8 @@ form_col_right = {'offset': 0, 'order': 3, 'width': 4}
 title_row = dbc.Row(children=[dbc.Col(title, xs=12, sm=12, md=12, lg=12, xl=6)], 
                     justify='center')
 
-middle_about_row = dbc.Row(children=[dbc.Col(about_div, xs=12, sm=12, md=12, lg=12, xl=6)], justify='center')
+middle_about_row = dbc.Row(children=[dbc.Col(about_div, xs=12, sm=12, md=12, lg=12, xl=6)], 
+                           justify='center')
 
 middle_row = dbc.Row(children=[dbc.Col(chart_div, xs=middle_col_left, 
                                                   sm=middle_col_left, 
@@ -528,15 +588,19 @@ def update_stats(preds, names, *args):
         diff_pct = round((price / prev_price - 1) * 100, 2)        
 
         if diff_pln > 0:
-            diff_text = html.P(f'{diff_pln:+,.0f} PLN ({diff_pct:+.2f}%)' , style={'color': 'green'})
+            diff_text = html.P(f'{diff_pln:+,.0f} PLN ({diff_pct:+.2f}%)' , 
+                               style={'color': 'green'})
         elif diff_pln < 0:
-            diff_text = html.P(f'{diff_pln:+,.0f} PLN ({diff_pct:+.2f}%)', style={'color': 'red'})
+            diff_text = html.P(f'{diff_pln:+,.0f} PLN ({diff_pct:+.2f}%)', 
+                               style={'color': 'red'})
         else:
             diff_text = html.P(f'{diff_pln:+,.0f} PLN ({diff_pct:+.2f}%)')
 
         diff_tooltip = f'Change in price from previous parameters.'
 
-        stats_children += [html.Div(children=[html.P(f'Difference: ', id='tooltip-difference'), 
+        stats_children += [html.Div(children=[html.P(f'Difference: ', 
+                                                     id='tooltip-difference', 
+                                                     style={'cursor': 'pointer'}), 
                                               dbc.Tooltip(diff_tooltip, 
                                                           target='tooltip-difference')], 
                                     style={'float': 'left'}),
