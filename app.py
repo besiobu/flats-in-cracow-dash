@@ -188,7 +188,7 @@ drop_style = {'margin': '10px'}
 bottom_style = {'margin': '10px'}
 
 # Divs - forms - sliders
-area_div = html.Div(children=[html.Label('Area (meters squared):'), area_slider], 
+area_div = html.Div(children=[html.Label('Area (\u33A1):'), area_slider], 
                     style=slider_style)
 
 room_div = html.Div(children=[html.Label('Rooms:'), room_slider], 
