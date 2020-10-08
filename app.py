@@ -188,7 +188,7 @@ drop_style = {'margin': '10px'}
 bottom_style = {'margin': '10px'}
 
 # Divs - forms - sliders
-area_div = html.Div(children=[html.Label('Area (\u33A1):'), area_slider], 
+area_div = html.Div(children=[html.Label('Area, \u33A1:'), area_slider], 
                     style=slider_style)
 
 room_div = html.Div(children=[html.Label('Rooms:'), room_slider], 
@@ -203,7 +203,10 @@ form_sliders = [html.H4('Area & rooms', style=slider_header_style),
                 bathroom_div]
 
 # Divs - forms - dropdowns
-district_div = html.Div(children=[html.Label('District:'), district_drop], 
+district_tooltip = 'Districts of Cracow.'
+district_div = html.Div(children=[html.Label('District:', id='district-tooltip'), 
+                        dbc.Tooltip(district_tooltip, target='district-tooltip'),
+                        district_drop], 
                         style=drop_style)
 
 garden_div = html.Div(children=[html.Label('Garden:'), garden_drop],
@@ -215,7 +218,12 @@ balcony_div = html.Div(children=[html.Label('Balcony:'), balcony_drop],
 terrace_div = html.Div(children=[html.Label('Terrace:'), terrace_drop], 
                        style=drop_style)
 
-buyer_div = html.Div(children=[html.Label('Buy from:'), seller_drop], 
+buyer_tooltip = 'Realtor: buy from a real estate agency. ' \
+                'Owner: Buy directly from the owner of the property.'
+
+buyer_div = html.Div(children=[html.Label('Buy from:', id='tooltip-buyer', style={'cursor': 'pointer'}), 
+                               dbc.Tooltip(buyer_tooltip, target='tooltip-buyer'), 
+                               seller_drop], 
                      style=drop_style)
 
 block_div = html.Div(children=[html.Label('In a residential block ?'), block_drop], 
@@ -230,7 +238,11 @@ apartment_div = html.Div(children=[html.Label('Is a apartment ?'), apartment_dro
 studio_div = html.Div(children=[html.Label('Is a studio flat ?'), studio_drop],
                       style=drop_style)
 
-new_div = html.Div(children=[html.Label('New:'), new_drop], 
+new_tooltip = 'Did the listing description contain the keyword `new`. '
+
+new_div = html.Div(children=[html.Label('New:', id='tooltip-new', style={'cursor': 'pointer'}), 
+                             dbc.Tooltip(new_tooltip, target='tooltip-new'),
+                             new_drop], 
                    style=drop_style)
 
 parking_div = html.Div(children=[html.Label('Parking:'), parking_drop], 
@@ -480,9 +492,6 @@ def make_bar_chart(preds, names):
     Last predicton is plotted in darker colour.
 
     """
-
-    print(preds)
-    print(names)
 
     names = [x.upper() for x in names]
 
