@@ -128,7 +128,9 @@ townhouse_drop = dcc.Dropdown(id='townhouse-dropdown',
 
 apartment_drop = dcc.Dropdown(id='apartment-dropdown', 
                               options=bin_opts, 
-                              value=0)
+                              value=0,
+                              searchable=False, 
+                              clearable=False)
 
 busstop_drop = dcc.Dropdown(id='busstop-dropdown', 
                             options=bin_opts, 
@@ -138,7 +140,10 @@ busstop_drop = dcc.Dropdown(id='busstop-dropdown',
 
 studio_drop = dcc.Dropdown(id='studio-dropdown', 
                            options=bin_opts, 
-                           value=0)
+                           value=0,
+                           searchable=False, 
+                           clearable=False)
+
 
 # Links
 google_maps_link = html.A(children='Cracow, Poland', 
@@ -251,7 +256,7 @@ bottom = html.Div(children=[github_link],
                   style=bottom_style)                     
 
 # Divs - layout, in order of appearance
-title = html.Div(children=[html.H2('How much will your new flat cost ?')],
+title = html.Div(children=[html.H1('How much will your new flat cost ?')],
                  style=title_style)
 
 # About
@@ -476,10 +481,15 @@ def make_bar_chart(preds, names):
 
     """
 
+    print(preds)
+    print(names)
+
     names = [x.upper() for x in names]
 
-    colours = ['#ABE2FB' for i in range(len(preds)-1)]
-    colours += ['#3498DB']
+    names = [x for x,_ in sorted(zip(names, preds), key=lambda pair: pair[1])]
+    preds = [y for _,y in sorted(zip(names, preds), key=lambda pair: pair[1])]
+
+    colours = ['#ABE2FB' if x != 'VOTE' else '#3498DB' for x in names]
 
     fig = go.Figure(go.Bar(y=names,
                            x=preds,
