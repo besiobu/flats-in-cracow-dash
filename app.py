@@ -214,7 +214,7 @@ buyer_tooltip = 'Realtor: buy from a real estate agency. ' \
 
 new_tooltip = 'Did the listing description contain the keyword `new` ? '
 
-stats_tooltip = 'Predictions are based on the VOTE model.'
+stats_tooltip = 'Based on values predicted by the best (VOTE) model.'
 
 chart_tooltip = 'MLP: A neural network.' \
                 ' GBR: A Gradient Boosting Regression model.' \
@@ -275,7 +275,7 @@ about_div = html.Div(children=[html.H4('About'),
 
 stats_div = html.Div(children=[html.Div(children=[html.H4('Prediction details', id='tooltip-stats', style={'cursor': 'pointer'}),
                                                   html.Div(id='pred-stats'),
-                                                  dbc.Tooltip(stats_tooltip, target='tooltip-stats')])], style=about_style)
+                                                  dbc.Tooltip(stats_tooltip, target='tooltip-stats', placement='top-start')])], style=about_style)
 
 
 chart_div = html.Div(children=[html.Div(children=[html.H4('Prediction chart', id='tooltip-prediction', style={'cursor': 'pointer'}), 
