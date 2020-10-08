@@ -176,7 +176,7 @@ room_div = html.Div(children=[html.Label('Rooms:'), room_slider],
 bathroom_div = html.Div(children=[html.Label('Bathrooms:'), bathroom_slider], 
                         style=slider_style)
 
-form_sliders = [html.H5('Area & rooms', style=slider_header_style), 
+form_sliders = [html.H4('Area & rooms', style=slider_header_style), 
                 area_div, 
                 room_div, 
                 bathroom_div]
@@ -221,13 +221,13 @@ basement_div = html.Div(children=[html.Label('Has a basement ?'), basement_drop]
 busstop_div = html.Div(children=[html.Label('Bus stops nearby:'), busstop_drop], 
                     style=drop_style)
 
-about_div = html.Div(children=[html.H5('About'), 
+about_div = html.Div(children=[html.H4('About'), 
                                html.Div(children=[about_text_p1, 
                                                   google_maps_link, 
                                                   about_text_p2])], 
                      style=about_style)
 
-chart_div = html.Div(children=[html.Div(children=[html.H5('Prediction'), 
+chart_div = html.Div(children=[html.Div(children=[html.H4('Prediction'), 
                                html.Div(id='prediction')])], 
                      style=chart_style)
 
@@ -242,9 +242,9 @@ title = html.Div(children=[html.H2('How much will your new flat cost ?')],
 middle = [html.Div(children=[chart_div, about_div])]
 
 # Form headers
-center_form_header = html.H5('Property type', style=form_header_style)
-right_form_header = html.H5('Extras', style=form_header_style)
-left_form_header = html.H5('Basic information', style=form_header_style)
+center_form_header = html.H4('Property type', style=form_header_style)
+right_form_header = html.H4('Extras', style=form_header_style)
+left_form_header = html.H4('Basic information', style=form_header_style)
 
 # Basic info
 form_left = html.Div(children=[left_form_header,
