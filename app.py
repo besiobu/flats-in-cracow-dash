@@ -4,6 +4,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 import plotly.graph_objects as go
 
+from collections import deque
 from src.Model import Model, generate_features
 
 # Models
@@ -12,6 +13,9 @@ mlp = Model(name='mlp').load()
 vote = Model(name='vote').load()
 
 models = [gbr, mlp, vote]
+
+# Store previous predictions
+prev_prices = deque(maxlen=2)
 
 # App
 district_opts = [
@@ -202,9 +206,23 @@ form_sliders = [html.H4('Area & rooms', style=slider_header_style),
                 room_div, 
                 bathroom_div]
 
+# Tooltips
+district_tooltip = 'Choose a district in Cracow.'
+
+buyer_tooltip = 'Realtor: buy from a real estate agency. ' \
+                'Owner: Buy directly from the owner of the property.'
+
+new_tooltip = 'Did the listing description contain the keyword `new` ? '
+
+stats_tooltip = 'Predictions are based on the VOTE model.'
+
+chart_tooltip = 'MLP: A neural network.' \
+                ' GBR: A Gradient Boosting Regression model.' \
+                ' VOTE: Linear combination of MLP and GBR.'
+
 # Divs - forms - dropdowns
-district_tooltip = 'Districts of Cracow.'
-district_div = html.Div(children=[html.Label('District:', id='district-tooltip'), 
+
+district_div = html.Div(children=[html.Label('District:', id='district-tooltip', style={'cursor': 'pointer'}), 
                         dbc.Tooltip(district_tooltip, target='district-tooltip'),
                         district_drop], 
                         style=drop_style)
@@ -217,9 +235,6 @@ balcony_div = html.Div(children=[html.Label('Balcony:'), balcony_drop],
 
 terrace_div = html.Div(children=[html.Label('Terrace:'), terrace_drop], 
                        style=drop_style)
-
-buyer_tooltip = 'Realtor: buy from a real estate agency. ' \
-                'Owner: Buy directly from the owner of the property.'
 
 buyer_div = html.Div(children=[html.Label('Buy from:', id='tooltip-buyer', style={'cursor': 'pointer'}), 
                                dbc.Tooltip(buyer_tooltip, target='tooltip-buyer'), 
@@ -237,8 +252,6 @@ apartment_div = html.Div(children=[html.Label('Is a apartment ?'), apartment_dro
 
 studio_div = html.Div(children=[html.Label('Is a studio flat ?'), studio_drop],
                       style=drop_style)
-
-new_tooltip = 'Did the listing description contain the keyword `new`. '
 
 new_div = html.Div(children=[html.Label('New:', id='tooltip-new', style={'cursor': 'pointer'}), 
                              dbc.Tooltip(new_tooltip, target='tooltip-new'),
@@ -260,8 +273,14 @@ about_div = html.Div(children=[html.H4('About'),
                                                   about_text_p2])], 
                      style=about_style)
 
-chart_div = html.Div(children=[html.Div(children=[html.H4('Prediction'), 
-                               html.Div(id='prediction')])], 
+stats_div = html.Div(children=[html.Div(children=[html.H4('Prediction details', id='tooltip-stats', style={'cursor': 'pointer'}),
+                                                  html.Div(id='pred-stats'),
+                                                  dbc.Tooltip(stats_tooltip, target='tooltip-stats')])], style=about_style)
+
+
+chart_div = html.Div(children=[html.Div(children=[html.H4('Prediction chart', id='tooltip-prediction', style={'cursor': 'pointer'}), 
+                               html.Div(id='prediction'),
+                               dbc.Tooltip(chart_tooltip, target='tooltip-prediction', placement='top-start')])], 
                      style=chart_style)
 
 bottom = html.Div(children=[github_link], 
@@ -272,7 +291,7 @@ title = html.Div(children=[html.H1('How much will your new flat cost ?')],
                  style=title_style)
 
 # About
-middle = [html.Div(children=[chart_div, about_div])]
+middle = [html.Div(children=[chart_div, stats_div])]
 
 # Form headers
 center_form_header = html.H4('Property type', style=form_header_style)
@@ -316,16 +335,18 @@ form_col_right = {'offset': 0, 'order': 3, 'width': 4}
 title_row = dbc.Row(children=[dbc.Col(title, xs=12, sm=12, md=12, lg=12, xl=6)], 
                     justify='center')
 
+middle_about_row = dbc.Row(children=[dbc.Col(about_div, xs=12, sm=12, md=12, lg=12, xl=6)], justify='center')
+
 middle_row = dbc.Row(children=[dbc.Col(chart_div, xs=middle_col_left, 
                                                   sm=middle_col_left, 
                                                   md=middle_col_left, 
                                                   lg=middle_col_left, 
-                                                  xl=3),
-                               dbc.Col(about_div, xs=middle_col_right, 
+                                                  xl=4),
+                               dbc.Col(stats_div, xs=middle_col_right, 
                                                   sm=middle_col_right, 
                                                   md=middle_col_right, 
                                                   lg=middle_col_right, 
-                                                  xl=3)], 
+                                                  xl=2)], 
                      justify='center')
 
 form_sliders_row = dbc.Row(children=[dbc.Col(form_sliders, xs=12, sm=12, md=12, lg=12, xl=6)], 
@@ -365,6 +386,7 @@ server = app.server
 app.title = 'Flats in Cracow'
 
 app.layout = html.Div(children=[title_row,
+                                middle_about_row,
                                 middle_row,
                                 form_sliders_row,
                                 form_drops_row,
@@ -444,7 +466,9 @@ def update_block_dropdown(block):
 
 
 @app.callback(
-    dash.dependencies.Output('prediction', 'children'),
+    [   dash.dependencies.Output('prediction', 'children'),
+        dash.dependencies.Output('pred-stats', 'children')
+    ],
     [
         dash.dependencies.Input('district-dropdown', 'value'),           
         dash.dependencies.Input('seller-dropdown', 'value'),                                        
@@ -480,7 +504,48 @@ def update_prediction(*args):
     bar_chart = make_bar_chart(preds=preds,
                                names=names)
 
-    return bar_chart    
+    stats = update_stats(preds, names, *args)
+
+    return bar_chart, stats
+
+def update_stats(preds, names, *args):
+
+    area = args[2]
+
+    price = preds[names.index('vote')]
+
+    prev_prices.append(price)
+
+    price_per_m2 = int(round(price / area, -2))
+
+    stats_children = [html.P(f'Price: {price:,} PLN'),
+                      html.P(f'Price per \u33A1: {price_per_m2:,} PLN')]
+
+    if len(prev_prices) > 1:
+
+        prev_price = prev_prices[-2]
+        diff_pln = price - prev_price
+        diff_pct = round((price / prev_price - 1) * 100, 2)        
+
+        if diff_pln > 0:
+            diff_text = html.P(f'{diff_pln:+,.0f} PLN ({diff_pct:+.2f}%)' , style={'color': 'green'})
+        elif diff_pln < 0:
+            diff_text = html.P(f'{diff_pln:+,.0f} PLN ({diff_pct:+.2f}%)', style={'color': 'red'})
+        else:
+            diff_text = html.P(f'{diff_pln:+,.0f} PLN ({diff_pct:+.2f}%)')
+
+        diff_tooltip = f'Change in price from previous parameters.'
+
+        stats_children += [html.Div(children=[html.P(f'Difference: ', id='tooltip-difference'), 
+                                              dbc.Tooltip(diff_tooltip, 
+                                                          target='tooltip-difference')], 
+                                    style={'float': 'left'}),
+                           html.Div(children=[html.P(diff_text)], 
+                                    style={'float': 'left', 'margin-left': '5px'})]
+
+    stats = html.Div(children=stats_children)
+
+    return stats
 
 def make_bar_chart(preds, names):
     """
@@ -509,7 +574,8 @@ def make_bar_chart(preds, names):
     fig.update_layout(template='plotly_white',        
                       height=150,        
                       margin=dict(l=10, r=10, t=5, b=5, pad=5),
-                      xaxis=dict(range=[Model.min_pred, Model.max_pred]),
+                      yaxis_title=('MODEL'),
+                      xaxis=dict(range=[Model.min_pred, Model.max_pred]),                    
                       xaxis_title=('PLN'),
                       hoverlabel=dict(bgcolor='white', 
                                       font_size=12, 
