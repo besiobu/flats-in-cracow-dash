@@ -1,4 +1,5 @@
 # flats in cracow dash
+![image](https://github.com/besiobu/flats-in-cracow-dash/blob/develop/img/flats_in_cracow.png)
 
 ## Project goal
 The goal of this project is to build a responsive web app to interact with models I [built](https://github.com/besiobu/flats-in-cracow) to predict flat prices in `Cracow, PL`.
