@@ -191,6 +191,10 @@ drop_style = {'margin': '10px'}
 
 bottom_style = {'margin': '10px'}
 
+badge_header_tooltip_style = {'cursor': 'pointer', 'margin-left': '15px', 'font-size': '0.8rem'}
+
+badge_form_tooltip_style = {'cursor': 'pointer', 'margin-left': '10px', 'font-size': '0.8rem', 'float': 'right'}
+
 # Divs - forms - sliders
 area_div = html.Div(children=[html.Label('Area, \u33A1:'), area_slider], 
                     style=slider_style)
@@ -233,91 +237,89 @@ basement_tooltip = 'Did the listing description contain the keyword `basement` ?
 busstop_tooltip = 'Did the listing description contain the phrase `bus stops nearby` ?'
 
 # Tooltips - other
-stats_tooltip = 'Based on values predicted by the best (VOTE) model.'
+stats_tooltip = 'Based on values predicted by the best model.'
 
-chart_tooltip = 'MLP: Neural network.' \
-                ' GBR: Gradient Boosting.' \
-                ' VOTE: Ensemble of MLP and GBR.'
+chart_tooltip = 'Three models were trained. Vote was the best.'
 
 # Divs - forms - dropdowns
-district_div = html.Div(children=[html.Label('District:', id='district-tooltip', 
-                                             style={'cursor': 'pointer'}), 
-                                 dbc.Tooltip(district_tooltip, target='district-tooltip'),
-                                 district_drop], 
+district_div = html.Div(children=[html.Label('District:'), 
+                                  dbc.Badge('?', pill=True, id='tooltip-district', className='ml-1', style=badge_form_tooltip_style),                                                                                                                        
+                                  dbc.Tooltip(district_tooltip, target='tooltip-district'),
+                                  district_drop], 
                         style=drop_style)
 
 garden_tooltip = 'Did the listing description contain the keyword `garden` ?'
 
-garden_div = html.Div(children=[html.Label('Garden:', id='tooltip-garden', 
-                                           style={'cursor': 'pointer'}), 
+garden_div = html.Div(children=[html.Label('Garden'), 
+                                dbc.Badge('?', pill=True, id='tooltip-garden', className='ml-1', style=badge_form_tooltip_style),                                                                                                                        
                                 dbc.Tooltip(garden_tooltip, target='tooltip-garden'),
                                 garden_drop],
                       style=drop_style)
 
 
-balcony_div = html.Div(children=[html.Label('Balcony:', id='tooltip-balcony', 
-                                            style={'cursor': 'pointer'}), 
+balcony_div = html.Div(children=[html.Label('Balcony'), 
+                                 dbc.Badge('?', pill=True, id='tooltip-balcony', className='ml-1', style=badge_form_tooltip_style),                                                                                        
                                  dbc.Tooltip(balcony_tooltip, target='tooltip-balcony'),
                                  balcony_drop],                      
                      style=drop_style)
 
-terrace_div = html.Div(children=[html.Label('Terrace:', id='tooltip-terrace', 
-                                            style={'cursor': 'pointer'}), 
+terrace_div = html.Div(children=[html.Label('Terrace'), 
+                                 dbc.Badge('?', pill=True, id='tooltip-terrace', className='ml-1', style=badge_form_tooltip_style),                                                                                        
                                  dbc.Tooltip(terrace_tooltip, target='tooltip-terrace'),
                                  terrace_drop], 
                        style=drop_style)
 
-buyer_div = html.Div(children=[html.Label('Buy from:', id='tooltip-buyer', 
-                                          style={'cursor': 'pointer'}), 
+buyer_div = html.Div(children=[html.Label('Seller'), 
+                               dbc.Badge('?', pill=True, id='tooltip-buyer', className='ml-1', style=badge_form_tooltip_style),                                                                                        
                                dbc.Tooltip(buyer_tooltip, target='tooltip-buyer'), 
                                seller_drop], 
                      style=drop_style)
 
-block_div = html.Div(children=[html.Label('In a residential block ?', id='tooltip-block', 
-                                          style={'cursor': 'pointer'}), 
+block_div = html.Div(children=[html.Label('Residential block'), 
+                               dbc.Badge('?', pill=True, id='tooltip-block', className='ml-1', style=badge_form_tooltip_style),                                              
                                dbc.Tooltip(block_tooltip, target='tooltip-block'), 
                                block_drop], 
                       style=drop_style)
 
-townhouse_div = html.Div(children=[html.Label('In a townhouse ?', id='tooltip-townhouse', 
-                                              style={'cursor': 'pointer'}), 
+townhouse_div = html.Div(children=[html.Label('Townhouse'), 
+                                   dbc.Badge('?', pill=True, id='tooltip-townhouse', className='ml-1', style=badge_form_tooltip_style),                                              
                                    dbc.Tooltip(townhouse_tooltip, target='tooltip-townhouse'),
                                    townhouse_drop], 
                          style=drop_style)
 
-apartment_div = html.Div(children=[html.Label('Is a apartment ?', id='tooltip-apartment', 
-                                              style={'cursor': 'pointer'}),
+apartment_div = html.Div(children=[html.Label('Apartment'),
+                                   dbc.Badge('?', pill=True, id='tooltip-apartment', className='ml-1', style=badge_form_tooltip_style),
                                    dbc.Tooltip(apartment_tooltip, target='tooltip-apartment'),
                                    apartment_drop], 
                          style=drop_style)
 
-studio_div = html.Div(children=[html.Label('Is a studio flat ?', id='tooltip-studio', 
-                                           style={'cursor': 'pointer'}), 
+studio_div = html.Div(children=[html.Label('Studio'), 
+                                dbc.Badge('?', pill=True, id='tooltip-studio', className='ml-1', style=badge_form_tooltip_style),
                                 dbc.Tooltip(studio_tooltip, target='tooltip-studio'),
                                 studio_drop],
                       style=drop_style)
 
-new_div = html.Div(children=[html.Label('New:', id='tooltip-new', 
-                                        style={'cursor': 'pointer'}), 
+new_div = html.Div(children=[html.Label('New'), 
+                             dbc.Badge('?', pill=True, id='tooltip-new', className='ml-1', style=badge_form_tooltip_style),
                              dbc.Tooltip(new_tooltip, target='tooltip-new'),
                              new_drop], 
                    style=drop_style)
 
-parking_div = html.Div(children=[html.Label('Parking:', id='tooltip-parking', 
-                                            style={'cursor': 'pointer'}), 
+parking_div = html.Div(children=[html.Label('Parking'), 
+                                 dbc.Badge('?', pill=True, id='tooltip-parking', className='ml-1', style=badge_form_tooltip_style),
                                  dbc.Tooltip(parking_tooltip, target='tooltip-parking'),
                                  parking_drop], 
                        style=drop_style)
 
-basement_div = html.Div(children=[html.Label('Has a basement ?', id='tooltip-basement',     
-                                             style={'cursor': 'pointer'}), 
+basement_div = html.Div(children=[html.Label('Basement'), 
+                                  dbc.Badge('?', pill=True, id='tooltip-basement', className='ml-1', style=badge_form_tooltip_style),
                                   dbc.Tooltip(basement_tooltip, target='tooltip-basement'),
                                   basement_drop], 
                     style=drop_style)
 
-busstop_div = html.Div(children=[html.Label('Bus stops nearby:', id='tooltip-busstop', 
-                                            style={'cursor': 'pointer'}), 
-                                 dbc.Tooltip(busstop_tooltip, target='tooltip-busstop'),
+busstop_div = html.Div(children=[html.Div(children=[html.Label('Bus stops nearby'),
+                                                    dbc.Badge('?', pill=True, id='tooltip-busstop', style=badge_form_tooltip_style),                                                
+                                                    dbc.Tooltip(busstop_tooltip, target='tooltip-busstop')]), 
                                  busstop_drop], 
                     style=drop_style)
 
@@ -327,19 +329,18 @@ about_div = html.Div(children=[html.H4('About'),
                                                   about_text_p2])], 
                      style=about_style)
 
-stats_div = html.Div(children=[html.Div(children=[html.H4('Prediction details', id='tooltip-stats', 
-                                                          style={'cursor': 'pointer'}),
-                                                  html.Div(id='pred-stats'),
-                                                  dbc.Tooltip(stats_tooltip, target='tooltip-stats', 
-                                                              placement='top-start')])], 
+stats_div = html.Div(children=[html.Div(children=[html.Div(children=[html.H4('Prediction details', style={'float': 'left'}),
+                                                                     dbc.Badge('?', pill=True, id='tooltip-stats', style=badge_header_tooltip_style),
+                                                                     dbc.Tooltip(stats_tooltip, target='tooltip-stats', placement='top-start')]),
+                                                  html.Div(id='pred-stats')])], 
                                         style=about_style)
 
 
-chart_div = html.Div(children=[html.Div(children=[html.H4('Prediction chart', id='tooltip-prediction', 
-                                                          style={'cursor': 'pointer'}), 
-                               html.Div(id='prediction'),
-                               dbc.Tooltip(chart_tooltip, target='tooltip-prediction', 
-                                           placement='top-start')])], 
+
+chart_div = html.Div(children=[html.Div(children=[html.Div(children=[html.H4('Prediction chart', style={'float': 'left'}), 
+                                                                     dbc.Badge('?', pill=True, id='tooltip-prediction', style=badge_header_tooltip_style),
+                                                                     dbc.Tooltip(chart_tooltip, target='tooltip-prediction', placement='top-start')]),
+                               html.Div(id='prediction')])], 
                      style=chart_style)
 
 bottom = html.Div(children=[github_link], 
@@ -607,7 +608,7 @@ def update_stats(preds, names, *args):
                            html.Div(children=[html.P(diff_text)], 
                                     style={'float': 'left', 'margin-left': '5px'})]
 
-    stats = html.Div(children=stats_children)
+    stats = html.Div(children=stats_children, style={'float': 'left'})
 
     return stats
 
