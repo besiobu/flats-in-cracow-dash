@@ -5,7 +5,7 @@ import dash_html_components as html
 import plotly.graph_objects as go
 
 from collections import deque
-from src.Model import Model, generate_features
+from src.Model import model, generate_features
 
 # Models
 gbr = Model(name='gbr').load()
