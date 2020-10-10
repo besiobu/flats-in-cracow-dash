@@ -162,7 +162,18 @@ def generate_features(district,
     return x
 
 class Model(object):
+    """
 
+    A class to obtain predictions from models.
+
+    Examples
+    --------
+    X = get_features(*args)
+    mdl = Model('cool_model')
+    y = mdl.predict(X)
+
+    """
+    
     max_pred = 1.5 * 10 ** 6
     min_pred = 2 * 10 ** 5
 
