@@ -1,9 +1,10 @@
-# flats in cracow dash
-![image](https://github.com/besiobu/flats-in-cracow-dash/blob/develop/img/flats_in_cracow.png)
+# [flats in cracow dash](https://flats-in-cracow.herokuapp.com/)
 
 ## Project goal
 The goal of this project is to build a responsive web app to interact with models I [built](https://github.com/besiobu/flats-in-cracow) to predict flat prices in `Cracow, PL`.
 The web app is hosted on heroku, [link](https://flats-in-cracow.herokuapp.com/).
+
+![image](https://github.com/besiobu/flats-in-cracow-dash/blob/develop/img/flats_in_cracow.png)
 
 ### Methods
 * Data visualization
