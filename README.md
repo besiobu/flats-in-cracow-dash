@@ -17,7 +17,7 @@ The web app is hosted on heroku, [link](https://flats-in-cracow.herokuapp.com/).
 * CSS
 
 ## Project description
-A Dash web app has been built that allows the user to `interact` with the model and see predictions for various albeit sensible inputs. The appliaction displays a horizontal `bar plot` with model predictions, the actual `predicted price`, `price per meter squared` and `forms` to input data.
+A Dash web app has been built that allows the user to `interact` with the model and see predictions for various albeit sensible inputs. The application displays a horizontal `bar plot` with model predictions, the actual `predicted price`, `price per meter squared` and `forms` to input data.
 
 ## Getting started
 1. Clone this repo.
