@@ -26,7 +26,7 @@ chart_header_div = html.Div(children=[html.H4(children='Prediction chart',
 
 stats_div = html.Div(children=[html.Div(children=[stats_header_div,
                                                   html.Div(id='pred-stats')])], 
-                                        style=about_style)
+                                        style=stats_style)
 
 chart_div = html.Div(children=[html.Div(children=[chart_header_div,
                                                   html.Div(id='prediction')])], 

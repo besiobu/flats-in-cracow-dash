@@ -177,9 +177,16 @@ def update_stats(preds, names, *args):
 
     price_per_m2 = int(round(price / area, -2))
 
-    stats_children = [html.P(f'Price: {price:,} PLN'),
-                      html.P(f'Price per \u33A1: {price_per_m2:,} PLN')]
+    price_paragraph = html.P(f'Price: {price:,} PLN')
 
+    price_per_m2_paragraph = html.P(f'Price per \u33A1: {price_per_m2:,} PLN')
+
+    stats_children = [html.Div(children=[price_paragraph,
+                                         price_per_m2_paragraph], 
+                               style={'width': '100%', 'float': 'left'})]
+
+    # If user changes settings calculate
+    # difference and relative change
     if len(prev_prices) > 1:
 
         prev_price = prev_prices[-2]
@@ -197,16 +204,17 @@ def update_stats(preds, names, *args):
 
         diff_tooltip = f'Change in price from previous parameters.'
 
-        stats_children += [html.Div(children=[html.P(f'Difference: ', 
+        stats_children += [html.Div(children=[html.P(children=f'Difference: ', 
                                                      id='tooltip-difference', 
-                                                     style={'cursor': 'pointer'}), 
-                                              dbc.Tooltip(diff_tooltip, 
-                                                          target='tooltip-difference')], 
-                                    style={'float': 'left'}),
-                           html.Div(children=[html.P(diff_text)], 
-                                    style={'float': 'left', 'margin-left': '5px'})]
+                                                     style={'cursor': 'pointer', 
+                                                            'float': 'left'}), 
+                                              dbc.Tooltip(children=diff_tooltip, 
+                                                          target='tooltip-difference'),
+                                              html.Div(children=html.P(diff_text), 
+                                                       style={'float': 'left', 
+                                                              'margin-left': '5px'})])] 
 
-    stats = html.Div(children=stats_children, style={'float': 'left'})
+    stats = html.Div(children=stats_children, style={'width': '100%'})
 
     return stats
 

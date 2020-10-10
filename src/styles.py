@@ -8,6 +8,9 @@ chart_style = {'margin': '10px',
 about_style = {'margin': '10px', 
                'text-align': 'justify'}
 
+stats_style = {'margin': '10px', 
+               'text-align': 'justify'}
+
 slider_header_style = {'margin': '10px'}
 
 slider_style = {'margin': '10px'}
