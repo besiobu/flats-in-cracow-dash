@@ -258,7 +258,8 @@ def make_bar_chart(preds, names):
 
     # Disable toolbar
     bar_chart = dcc.Graph(figure=fig, 
-                          config={'displayModeBar': False})
+                          config={'displayModeBar': False},
+                          animate=True)
 
     return bar_chart
 
