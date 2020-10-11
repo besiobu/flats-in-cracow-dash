@@ -23,3 +23,6 @@ A Dash web app has been built that allows the user to `interact` with the model 
 1. Clone this repo.
 2. Install requirements.
 3. Run ```app.py```.
+
+## Credits
+* Favicon by [ipapun](https://findicons.com/icon/158565/home).
