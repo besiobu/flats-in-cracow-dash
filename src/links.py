@@ -2,7 +2,7 @@ import dash_html_components as html
 
 # Links
 google_maps_link = html.A(
-    children='Cracow, Poland', 
+    children='Kraków, Poland', 
     href='https://goo.gl/maps/AXsGvLCugEmcd2WG7', 
     target='_blank'
     )
@@ -14,7 +14,7 @@ github_link = html.A(
     )
 
 district_link = html.A(
-    children='Districts',
+    children='this article',
     href='https://en.wikipedia.org/wiki/Districts_of_Krak%C3%B3w',
     target='_blank'
     )
